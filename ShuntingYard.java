@@ -1,7 +1,7 @@
-/* This project is a simple CLI tool to create boolean truth tables from (almost) any 
-statement.  Expressions can be written in any free mix of classical boolean algebra 
-and Java syntax.  However, since multi-character names are allowed, it cannot accept
-syntax like ab+c */
+/* This project is by Ben Isecke. It is a simple CLI tool to create boolean truth 
+tables from (almost) any statement.  Expressions can be written in any free mix of 
+classical boolean algebra and Java syntax.  However, since multi-character names 
+are allowed, it cannot accept syntax like ab+c */
 
 /* I began with the Shunting Yard implementation published by Edd Mann 
 here (https://eddmann.com/posts/shunting-yard-implementation-in-java/) and then
@@ -17,7 +17,6 @@ public class ShuntingYard {
 		// TODO: missing nimply, nand, and nor
 		
 		System.out.println("--------------------- BOOLEAN EXPRESSION SOLVER ---------------------");
-		System.out.println("--------------------------- By Ben Isecke ---------------------------");
 		System.out.println("Write Java boolean expressions below (ie. \"a != !(b && c)\").");
 		System.out.println("Also accepts \u22c0, \u2227, ·, \u22c1, \u2228, \u2225, +, ->, \u21d2, \u2192, \u2283, \u21d4, \u2194, ==, \u2261, \u2295, \u21ae, \u00ac, ~, and \u02dc");
 		System.out.println("(Ctrl-c to exit)");
