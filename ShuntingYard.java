@@ -18,7 +18,7 @@ public class ShuntingYard {
 		
 		System.out.println("--------------------- BOOLEAN EXPRESSION SOLVER ---------------------");
 		System.out.println("Write Java boolean expressions below (ie. \"a != !(b && c)\").");
-		System.out.println("Also accepts \u22c0, \u2227, ·, \u22c1, \u2228, \u2225, +, ->, \u21d2, \u2192, \u2283, \u21d4, \u2194, ==, \u2261, \u2295, \u21ae, \u00ac, ~, and \u02dc");
+		System.out.println("Also accepts \u22c0, \u2227, ·, \u22bc, !&, \u22c1, \u2228, \u2225, +, \u22bd, !|, ->, \u21d2, \u2192, \u2283, \u21d4, \u2194, ==, \u2261, \u2295, \u21ae, \u00ac, ~, and \u02dc");
 		System.out.println("(Ctrl-c to exit)");
 		String exp;
 		String formatted_table = "";
@@ -28,7 +28,8 @@ public class ShuntingYard {
 				exp = in.nextLine();
 				formatted_table = k.truthTable(exp);
 			} catch (Exception e) {
-				System.out.println("Invalid command, please try again");
+				System.out.println("Invalid command, please try again.\n");
+				e.printStackTrace();
 				continue;
 			}
 			System.out.println(formatted_table);
@@ -37,7 +38,7 @@ public class ShuntingYard {
 	
 	
     private enum Operator {
-    	IMPLIES(1), AND(2), OR(3), XOR(4), EQ(4), NOT(5);
+    	IMPLIES(1), AND(2), NAND(3), OR(4), NOR(5), XOR(6), EQ(7), NOT(8);
         final int precedence;
         Operator(int p) { precedence = p; }
     }
@@ -46,7 +47,9 @@ public class ShuntingYard {
     	put("!=", Operator.XOR);
     	put("!", Operator.NOT);
         put("&&", Operator.AND);
+        put("!&", Operator.NAND);
         put("||", Operator.OR);
+        put("!|", Operator.NOR);
         put("==", Operator.EQ);
         put("->", Operator.IMPLIES);
     }};

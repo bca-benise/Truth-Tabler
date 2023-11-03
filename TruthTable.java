@@ -7,7 +7,9 @@ public class TruthTable {
 			if (cmds.get(i).equals("(")
 					|| cmds.get(i).equals(")")
 					|| cmds.get(i).equals("&&")
+					|| cmds.get(i).equals("!&")
 					|| cmds.get(i).equals("||")
+					|| cmds.get(i).equals("!|")
 					|| cmds.get(i).equals("!")
 					|| cmds.get(i).equals("==")
 					|| cmds.get(i).equals("!=")
@@ -62,6 +64,19 @@ public class TruthTable {
 					stack.push("1");
 				} else 
 					throw new IllegalArgumentException("And (&&) did not receive proper arguments, received "+val1+", "+val2);
+			} else if (item.equals("!&")){
+				String val1 = stack.pop();
+				String val2 = stack.pop();
+				if(val1.equals("0") && val2.equals("0")){
+					stack.push("1");
+				} else if(val1.equals("0") && val2.equals("1")){
+					stack.push("1");
+				} else if(val1.equals("1") && val2.equals("0")){
+					stack.push("1");
+				} else if(val1.equals("1") && val2.equals("1")){
+					stack.push("0");
+				} else 
+					throw new IllegalArgumentException("Nand (!&) did not receive proper arguments, received "+val1+", "+val2);
 			} else if (item.equals("||")){
 				String val1 = stack.pop();
 				String val2 = stack.pop();
@@ -73,6 +88,20 @@ public class TruthTable {
 					stack.push("1");
 				} else if(val1.equals("1") && val2.equals("1")){
 					stack.push("1");
+				} else 
+					throw new IllegalArgumentException("Or (||) did not receive proper arguments, received "+val1+", "+val2);
+
+			} else if (item.equals("!|")){
+				String val1 = stack.pop();
+				String val2 = stack.pop();
+				if(val1.equals("0") && val2.equals("0")){
+					stack.push("1");
+				} else if(val1.equals("0") && val2.equals("1")){
+					stack.push("0");
+				} else if(val1.equals("1") && val2.equals("0")){
+					stack.push("0");
+				} else if(val1.equals("1") && val2.equals("1")){
+					stack.push("0");
 				} else 
 					throw new IllegalArgumentException("Or (||) did not receive proper arguments, received "+val1+", "+val2);
 
@@ -156,10 +185,12 @@ public class TruthTable {
 		expression = expression.replaceAll("\u22c0","&&");
 		expression = expression.replaceAll("\u2227","&&");
 		expression = expression.replace("·","&&");
+		expression = expression.replaceAll("\u22bc","!&");
 		expression = expression.replaceAll("\u22c1","||");
 		expression = expression.replaceAll("\u2228","||");
 		expression = expression.replaceAll("\u2225","||");
 		expression = expression.replace("+","||");
+		expression = expression.replaceAll("\u22bd","!|");
 		expression = expression.replaceAll("\u21d2","->");
 		expression = expression.replaceAll("\u2192","->");
 		expression = expression.replaceAll("\u2283","->");
@@ -176,12 +207,15 @@ public class TruthTable {
 		expression = expression.replace("("," ( ");
 		expression = expression.replace(")"," ) ");
 		expression = expression.replace("=="," == ");
-		expression = expression.replace("->"," -> ");
+		expression = expression.replace("!=","notEqual temporary name to get past NOT processing");expression = expression.replace("->"," -> ");
 		expression = expression.replace("&&"," && ");
+		expression = expression.replace("!&","nand temporary name to get past NOT processing");
 		expression = expression.replace("||"," || ");
-		expression = expression.replace("!=","this text is not a legitimate name");
+		expression = expression.replace("!|","nor temporary name to get past NOT processing");		expression = expression.replace("!=","notEqual temporary name to get past NOT processing");
 		expression = expression.replace("!"," ! ");
-		expression = expression.replace("this text is not a legitimate name"," != ");
+		expression = expression.replace("notEqual temporary name to get past NOT processing"," != ");
+		expression = expression.replace("nand temporary name to get past NOT processing"," !& ");
+		expression = expression.replace("nor temporary name to get past NOT processing"," !| ");
 		expression = expression.replaceAll("\\s+", " ");
 		return expression.trim();
 	}
